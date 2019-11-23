@@ -1,14 +1,14 @@
 package api
 
 import (
-	"strconv"
+	//"strconv"
 	"strings"
 
 	"github.com/kataras/iris/v12"
 	"github.com/mlogclub/simple"
 
 	"mangostreet-ser-iris/controllers/render"
-	"mangostreet-ser-iris/model"
+	//"mangostreet-ser-iris/model"
 	"mangostreet-ser-iris/services"
 	"mangostreet-ser-iris/services/cache"
 )
@@ -125,60 +125,4 @@ func (this *UserController) PostUpdatePassword() *simple.JsonResult {
 		return simple.JsonErrorMsg(err.Error())
 	}
 	return simple.JsonSuccess()
-}
-
-// 未读消息数量
-func (this *UserController) GetMsgcount() *simple.JsonResult {
-	user := services.UserTokenService.GetCurrent(this.Ctx)
-	var count int64 = 0
-	if user != nil {
-		count = services.MessageService.GetUnReadCount(user.Id)
-	}
-	return simple.NewEmptyRspBuilder().Put("count", count).JsonResult()
-}
-
-// 用户收藏
-func (this *UserController) GetFavorites() *simple.JsonResult {
-	user := services.UserTokenService.GetCurrent(this.Ctx)
-	cursor := simple.FormValueInt64Default(this.Ctx, "cursor", 0)
-
-	// 用户必须登录
-	if user == nil {
-		return simple.JsonError(simple.ErrorNotLogin)
-	}
-
-	// 查询列表
-	var favorites []model.Favorite
-	if cursor > 0 {
-		favorites = services.FavoriteService.Find(simple.NewSqlCnd().Where("user_id = ? and id < ?",
-			user.Id, cursor).Desc("id").Limit(20))
-	} else {
-		favorites = services.FavoriteService.Find(simple.NewSqlCnd().Where("user_id = ?", user.Id).Desc("id").Limit(20))
-	}
-
-	if len(favorites) > 0 {
-		cursor = favorites[len(favorites)-1].Id
-	}
-
-	return simple.JsonCursorData(render.BuildFavorites(favorites), strconv.FormatInt(cursor, 10))
-}
-
-// 用户消息
-func (this *UserController) GetMessages() *simple.JsonResult {
-	user := services.UserTokenService.GetCurrent(this.Ctx)
-	page := simple.FormValueIntDefault(this.Ctx, "page", 1)
-
-	// 用户必须登录
-	if user == nil {
-		return simple.JsonError(simple.ErrorNotLogin)
-	}
-
-	messages, paging := services.MessageService.FindPageByCnd(simple.NewSqlCnd().
-		Eq("user_id", user.Id).
-		Page(page, 20).Desc("id"))
-
-	// 全部标记为已读
-	services.MessageService.MarkRead(user.Id)
-
-	return simple.JsonPageData(render.BuildMessages(messages), paging)
 }

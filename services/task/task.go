@@ -6,14 +6,10 @@ import (
 	"time"
 
 	"github.com/ikeikeikeike/go-sitemap-generator/v2/stm"
-	"github.com/mlogclub/simple"
 	"github.com/sirupsen/logrus"
 
 	"mangostreet-ser-iris/common/config"
 	"mangostreet-ser-iris/common/oss"
-	"mangostreet-ser-iris/common/urls"
-	"mangostreet-ser-iris/model"
-	"mangostreet-ser-iris/services"
 )
 
 var sitemapBuilding = false
@@ -60,76 +56,76 @@ func SitemapTask() {
 		{"priority", 1.0},
 	})
 
-	services.ArticleService.ScanDesc(func(articles []model.Article) bool {
-		for _, article := range articles {
-			if article.Status == model.ArticleStatusPublished {
-				articleUrl := urls.ArticleUrl(article.Id)
-				sm.Add(stm.URL{
-					{"loc", articleUrl},
-					{"lastmod", simple.TimeFromTimestamp(article.UpdateTime)},
-				})
-				// logrus.WithFields(logrus.Fields{
-				// 	"sitemap": "article",
-				// }).Info(articleUrl)
-			}
-		}
-		return true
-	})
-
-	services.TopicService.ScanDesc(func(topics []model.Topic) bool {
-		for _, topic := range topics {
-			if topic.Status == model.TopicStatusOk {
-				topicUrl := urls.TopicUrl(topic.Id)
-				sm.Add(stm.URL{
-					{"loc", topicUrl},
-					{"lastmod", simple.TimeFromTimestamp(topic.CreateTime)},
-				})
-				// logrus.WithFields(logrus.Fields{
-				// 	"sitemap": "topic",
-				// }).Info(topicUrl)
-			}
-		}
-		return true
-	})
-
-	services.ProjectService.ScanDesc(func(projects []model.Project) bool {
-		for _, project := range projects {
-			projectUrl := urls.ProjectUrl(project.Id)
-			sm.Add(stm.URL{
-				{"loc", projectUrl},
-				{"lastmod", simple.TimeFromTimestamp(project.CreateTime)},
-			})
-			// logrus.WithFields(logrus.Fields{
-			// 	"sitemap": "project",
-			// }).Info(projectUrl)
-		}
-		return true
-	})
-
-	services.TagService.ScanDesc(func(tags []model.Tag) bool {
-		for _, tag := range tags {
-			tagUrl := urls.TagArticlesUrl(tag.Id)
-			sm.Add(stm.URL{
-				{"loc", tagUrl},
-				{"lastmod", time.Now()},
-				{"changefreq", "daily"},
-				{"priority", 0.6},
-			})
-			// logrus.WithFields(logrus.Fields{
-			// 	"sitemap": "tag",
-			// }).Info(tagUrl)
-		}
-		return true
-	})
+	//services.ArticleService.ScanDesc(func(articles []model.Article) bool {
+	//	for _, article := range articles {
+	//		if article.Status == model.ArticleStatusPublished {
+	//			articleUrl := urls.ArticleUrl(article.Id)
+	//			sm.Add(stm.URL{
+	//				{"loc", articleUrl},
+	//				{"lastmod", simple.TimeFromTimestamp(article.UpdateTime)},
+	//			})
+	//			// logrus.WithFields(logrus.Fields{
+	//			// 	"sitemap": "article",
+	//			// }).Info(articleUrl)
+	//		}
+	//	}
+	//	return true
+	//})
+	//
+	//services.TopicService.ScanDesc(func(topics []model.Topic) bool {
+	//	for _, topic := range topics {
+	//		if topic.Status == model.TopicStatusOk {
+	//			topicUrl := urls.TopicUrl(topic.Id)
+	//			sm.Add(stm.URL{
+	//				{"loc", topicUrl},
+	//				{"lastmod", simple.TimeFromTimestamp(topic.CreateTime)},
+	//			})
+	//			// logrus.WithFields(logrus.Fields{
+	//			// 	"sitemap": "topic",
+	//			// }).Info(topicUrl)
+	//		}
+	//	}
+	//	return true
+	//})
+	//
+	//services.ProjectService.ScanDesc(func(projects []model.Project) bool {
+	//	for _, project := range projects {
+	//		projectUrl := urls.ProjectUrl(project.Id)
+	//		sm.Add(stm.URL{
+	//			{"loc", projectUrl},
+	//			{"lastmod", simple.TimeFromTimestamp(project.CreateTime)},
+	//		})
+	//		// logrus.WithFields(logrus.Fields{
+	//		// 	"sitemap": "project",
+	//		// }).Info(projectUrl)
+	//	}
+	//	return true
+	//})
+	//
+	//services.TagService.ScanDesc(func(tags []model.Tag) bool {
+	//	for _, tag := range tags {
+	//		tagUrl := urls.TagArticlesUrl(tag.Id)
+	//		sm.Add(stm.URL{
+	//			{"loc", tagUrl},
+	//			{"lastmod", time.Now()},
+	//			{"changefreq", "daily"},
+	//			{"priority", 0.6},
+	//		})
+	//		// logrus.WithFields(logrus.Fields{
+	//		// 	"sitemap": "tag",
+	//		// }).Info(tagUrl)
+	//	}
+	//	return true
+	//})
 
 	sm.Finalize().PingSearchEngines("http://www.google.cn/webmasters/tools/ping?sitemap=%s")
 }
 
 // 生成rss
 func RssTask() {
-	services.ArticleService.GenerateRss()
-	services.TopicService.GenerateRss()
-	services.ProjectService.GenerateRss()
+	//services.ArticleService.GenerateRss()
+	//services.TopicService.GenerateRss()
+	//services.ProjectService.GenerateRss()
 }
 
 // sitemap上传到aliyun

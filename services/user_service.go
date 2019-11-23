@@ -1,13 +1,13 @@
 package services
 
 import (
-	"database/sql"
 	"errors"
 	"strings"
 
 	"github.com/jinzhu/gorm"
 	"github.com/mlogclub/simple"
 
+	//"mangostreet-ser-iris/common/config"
 	"mangostreet-ser-iris/common"
 	"mangostreet-ser-iris/common/avatar"
 	"mangostreet-ser-iris/common/oss"
@@ -177,46 +177,6 @@ func (this *userService) SignIn(username, password string) (*model.User, error) 
 	if !simple.ValidatePassword(user.Password, password) {
 		return nil, errors.New("密码错误")
 	}
-	return user, nil
-}
-
-// 第三方账号登录
-func (this *userService) SignInByThirdAccount(thirdAccount *model.ThirdAccount) (*model.User, *simple.CodeError) {
-	user := this.Get(thirdAccount.UserId.Int64)
-	if user != nil {
-		return user, nil
-	}
-
-	user = &model.User{
-		Username:   sql.NullString{},
-		Nickname:   thirdAccount.Nickname,
-		Status:     model.UserStatusOk,
-		CreateTime: simple.NowTimestamp(),
-		UpdateTime: simple.NowTimestamp(),
-	}
-	err := simple.Tx(simple.DB(), func(tx *gorm.DB) error {
-		if err := repositories.UserRepository.Create(tx, user); err != nil {
-			return err
-		}
-
-		if err := repositories.ThirdAccountRepository.UpdateColumn(tx, thirdAccount.Id, "user_id", user.Id); err != nil {
-			return err
-		}
-
-		avatarUrl, err := this.HandleAvatar(user.Id, thirdAccount.Avatar)
-		if err != nil {
-			return err
-		}
-
-		if err := repositories.UserRepository.UpdateColumn(tx, user.Id, "avatar", avatarUrl); err != nil {
-			return err
-		}
-		return nil
-	})
-	if err != nil {
-		return nil, simple.FromError(err)
-	}
-	cache.UserCache.Invalidate(user.Id)
 	return user, nil
 }
 

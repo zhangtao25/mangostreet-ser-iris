@@ -1,6 +1,7 @@
 package app
 
 import (
+	"mangostreet-ser-iris/controllers/api"
 	"net/http"
 	"os"
 	"os/signal"
@@ -18,11 +19,9 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"mangostreet-ser-iris/common/config"
-	"mangostreet-ser-iris/controllers/api"
+	//"mangostreet-ser-iris/controllers/admin"
+	//"mangostreet-ser-iris/middleware"
 
-	"mangostreet-ser-iris/controllers/admin"
-	"mangostreet-ser-iris/middleware"
-	
 )
 
 func InitIris() {
@@ -56,40 +55,40 @@ func InitIris() {
 
 	// api
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
-		m.Party("/topic").Handle(new(api.TopicController))
-		m.Party("/article").Handle(new(api.ArticleController))
-		m.Party("/project").Handle(new(api.ProjectController))
+		//m.Party("/topic").Handle(new(api.TopicController))
+		//m.Party("/article").Handle(new(api.ArticleController))
+		//m.Party("/project").Handle(new(api.ProjectController))
 		m.Party("/login").Handle(new(api.LoginController))
 		m.Party("/user").Handle(new(api.UserController))
-		m.Party("/tag").Handle(new(api.TagController))
-		m.Party("/category").Handle(new(api.CategoryController))
-		m.Party("/comment").Handle(new(api.CommentController))
-		m.Party("/favorite").Handle(new(api.FavoriteController))
-		m.Party("/config").Handle(new(api.ConfigController))
-		m.Party("/upload").Handle(new(api.UploadController))
-		m.Party("/subject").Handle(new(api.SubjectController))
-		m.Party("/link").Handle(new(api.LinkController))
+		//m.Party("/tag").Handle(new(api.TagController))
+		//m.Party("/category").Handle(new(api.CategoryController))
+		//m.Party("/comment").Handle(new(api.CommentController))
+		//m.Party("/favorite").Handle(new(api.FavoriteController))
+		//m.Party("/config").Handle(new(api.ConfigController))
+		//m.Party("/upload").Handle(new(api.UploadController))
+		//m.Party("/subject").Handle(new(api.SubjectController))
+		//m.Party("/link").Handle(new(api.LinkController))
 	})
 
 	// admin
-	mvc.Configure(app.Party("/api/admin"), func(m *mvc.Application) {
-		m.Router.Use(middleware.AdminAuth)
-		m.Party("/user").Handle(new(admin.UserController))
-		m.Party("/third-account").Handle(new(admin.ThirdAccountController))
-		m.Party("/category").Handle(new(admin.CategoryController))
-		m.Party("/tag").Handle(new(admin.TagController))
-		m.Party("/article").Handle(new(admin.ArticleController))
-		m.Party("/comment").Handle(new(admin.CommentController))
-		m.Party("/favorite").Handle(new(admin.FavoriteController))
-		m.Party("/article-tag").Handle(new(admin.ArticleTagController))
-		m.Party("/topic").Handle(new(admin.TopicController))
-		m.Party("/sys-config").Handle(new(admin.SysConfigController))
-		m.Party("/subject").Handle(new(admin.SubjectController))
-		m.Party("/subject-content").Handle(new(admin.SubjectContentController))
-		m.Party("/link").Handle(new(admin.LinkController))
-		m.Party("/collect-rule").Handle(new(admin.CollectRuleController))
-		m.Party("/collect-article").Handle(new(admin.CollectArticleController))
-	})
+	//mvc.Configure(app.Party("/api/admin"), func(m *mvc.Application) {
+	//	m.Router.Use(middleware.AdminAuth)
+	//	m.Party("/user").Handle(new(admin.UserController))
+	//	m.Party("/third-account").Handle(new(admin.ThirdAccountController))
+	//	m.Party("/category").Handle(new(admin.CategoryController))
+	//	m.Party("/tag").Handle(new(admin.TagController))
+	//	m.Party("/article").Handle(new(admin.ArticleController))
+	//	m.Party("/comment").Handle(new(admin.CommentController))
+	//	m.Party("/favorite").Handle(new(admin.FavoriteController))
+	//	m.Party("/article-tag").Handle(new(admin.ArticleTagController))
+	//	m.Party("/topic").Handle(new(admin.TopicController))
+	//	m.Party("/sys-config").Handle(new(admin.SysConfigController))
+	//	m.Party("/subject").Handle(new(admin.SubjectController))
+	//	m.Party("/subject-content").Handle(new(admin.SubjectContentController))
+	//	m.Party("/link").Handle(new(admin.LinkController))
+	//	m.Party("/collect-rule").Handle(new(admin.CollectRuleController))
+	//	m.Party("/collect-article").Handle(new(admin.CollectArticleController))
+	//})
 
 	app.Get("/api/img/proxy", func(i iris.Context) {
 		url := i.FormValue("url")
