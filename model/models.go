@@ -3,7 +3,7 @@ package model
 import "database/sql"
 
 var Models = []interface{}{
-	&User{}, &UserToken{}, &Category{},
+	&User{}, &UserToken{}, &Category{}, &Note{},
 	// &Tag{}, &Article{}, &ArticleTag{}, &Comment{}, &Favorite{},
 	//&Topic{}, &TopicTag{}, &TopicLike{}, &Message{}, &SysConfig{}, &Project{}, &Subject{}, &SubjectContent{}, &Link{},
 	//&CollectRule{}, &CollectArticle{}, &ThirdAccount{},
@@ -104,4 +104,17 @@ type Category struct {
 	Status      int    `gorm:"index:idx_status;not null" json:"status" form:"status"`
 	CreateTime  int64  `json:"createTime" form:"createTime"`
 	UpdateTime  int64  `json:"updateTime" form:"updateTime"`
+}
+
+// 笔记
+type Note struct {
+	Model
+	UserId      int64  `gorm:"index:idx_user_id" json:"userId" form:"userId"`                      // 所属用户编号
+	Title       string `gorm:"size:128;not null;" json:"title" form:"title"`                       // 标题
+	Content     string `gorm:"type:longtext;not null;" json:"content" form:"content"`              // 内容
+	ContentType string `gorm:"type:varchar(32);not null" json:"contentType" form:"contentType"`    // 内容类型：normal、video
+	Status      int    `gorm:"int;not null" json:"status" form:"status"`                           // 状态
+	Images   	string `gorm:"type:text" json:"images" form:"images"`                        	   // 笔记图片
+	CreateTime  int64  `json:"createTime" form:"createTime"`                                       // 创建时间
+	UpdateTime  int64  `json:"updateTime" form:"updateTime"`                                       // 更新时间
 }

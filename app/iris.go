@@ -27,6 +27,7 @@ import (
 func InitIris() {
 	app := iris.New()
 	app.Logger().SetLevel("warn")
+	//静态文件服务
 	app.Use(recover.New())
 	app.Use(logger.New())
 	app.Use(cors.New(cors.Options{
@@ -52,11 +53,13 @@ func InitIris() {
 	app.Any("/", func(i iris.Context) {
 		_, _ = i.HTML("<h1>bbs-go</h1>")
 	})
+	//静态托管文件
+	app.HandleDir("/upload", "./upload")
 
 	// api
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
 		//m.Party("/topic").Handle(new(api.TopicController))
-		//m.Party("/article").Handle(new(api.ArticleController))
+		m.Party("/note").Handle(new(api.NoteController))
 		//m.Party("/project").Handle(new(api.ProjectController))
 		m.Party("/login").Handle(new(api.LoginController))
 		m.Party("/user").Handle(new(api.UserController))
@@ -65,7 +68,7 @@ func InitIris() {
 		//m.Party("/comment").Handle(new(api.CommentController))
 		//m.Party("/favorite").Handle(new(api.FavoriteController))
 		//m.Party("/config").Handle(new(api.ConfigController))
-		//m.Party("/upload").Handle(new(api.UploadController))
+		m.Party("/upload").Handle(new(api.UploadController))
 		//m.Party("/subject").Handle(new(api.SubjectController))
 		//m.Party("/link").Handle(new(api.LinkController))
 	})
