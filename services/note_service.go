@@ -21,6 +21,10 @@ func newNoteService() *noteService {
 type noteService struct {
 }
 
+func (this *noteService) Get(id int64) *model.Note {
+	return repositories.NoteRepository.Get(simple.DB(), id)
+}
+
 // 发布文章
 func (this *noteService) Publish(
 	userId int64,
@@ -54,9 +58,20 @@ func (this *noteService) Publish(
 		}
 		return nil
 	})
+	return
+}
 
-	//if err == nil {
-	//	baiduseo.PushUrl(urls.ArticleUrl(article.Id))
-	//}
+// 文章列表
+func (this *noteService) GetArticles(cursor int64) (articles []model.Note, nextCursor int64) {
+	cnd := simple.NewSqlCnd().Eq("status", model.ArticleStatusPublished).Desc("id").Limit(20)
+	if cursor > 0 {
+		cnd.Lt("id", cursor)
+	}
+	articles = repositories.NoteRepository.Find(simple.DB(), cnd)
+	if len(articles) > 0 {
+		nextCursor = articles[len(articles)-1].Id
+	} else {
+		nextCursor = cursor
+	}
 	return
 }

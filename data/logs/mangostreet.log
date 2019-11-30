@@ -4,6 +4,35 @@ time="2019-11-24T23:51:47+08:00" level=info msg=Exited
 time="2019-11-25T00:04:59+08:00" level=info msg="got signal [interrupt], exiting now"
 time="2019-11-25T00:04:59+08:00" level=error msg="http: Server closed"
 time="2019-11-25T00:04:59+08:00" level=info msg=Exited
+<<<<<<< HEAD
 time="2019-11-25T00:24:17+08:00" level=error msg="listen tcp :8000: bind: address already in use"
 time="2019-11-25T00:42:19+08:00" level=error msg="http: Server closed"
 time="2019-11-25T00:52:22+08:00" level=error msg="http: Server closed"
+=======
+time="2019-11-26T00:27:23+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-11-26T00:27:23+08:00" level=error msg="http: Server closed"
+time="2019-11-26T00:27:23+08:00" level=info msg=Exited
+time="2019-11-30T15:45:25+08:00" level=error msg="http: Server closed"
+time="2019-11-30T15:45:25+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-11-30T15:45:25+08:00" level=info msg=Exited
+time="2019-11-30T16:05:42+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-11-30T16:05:42+08:00" level=error msg="http: Server closed"
+time="2019-11-30T16:05:42+08:00" level=info msg=Exited
+time="2019-11-30T16:09:43+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-11-30T16:09:43+08:00" level=error msg="http: Server closed"
+time="2019-11-30T16:09:43+08:00" level=info msg=Exited
+time="2019-11-30T18:40:05+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-11-30T18:40:05+08:00" level=error msg="http: Server closed"
+time="2019-12-01T00:30:41+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-12-01T00:30:41+08:00" level=error msg="http: Server closed"
+time="2019-12-01T00:30:41+08:00" level=info msg=Exited
+time="2019-12-01T00:32:23+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-12-01T00:32:23+08:00" level=error msg="http: Server closed"
+time="2019-12-01T00:32:23+08:00" level=info msg=Exited
+time="2019-12-01T00:49:58+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-12-01T00:49:58+08:00" level=error msg="http: Server closed"
+time="2019-12-01T00:49:58+08:00" level=info msg=Exited
+time="2019-12-01T01:17:25+08:00" level=info msg="got signal [interrupt], exiting now"
+time="2019-12-01T01:17:25+08:00" level=error msg="http: Server closed"
+time="2019-12-01T01:17:25+08:00" level=info msg=Exited
+>>>>>>> 8f35fe581c72cf3cbb56994ab3ee37156138db29
