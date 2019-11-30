@@ -10,12 +10,12 @@ import (
 	"os"
 )
 
-func PostFile(filename string, targetUrl string) error {
+func PostFile(filename string, targetUrl string,filetype string) error {
 	bodyBuf := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(bodyBuf)
 
 	//关键的一步操作
-	fileWriter, err := bodyWriter.CreateFormFile("note", filename)
+	fileWriter, err := bodyWriter.CreateFormFile(filetype, filename)
 	if err != nil {
 		fmt.Println("error writing to buffer")
 		return err
