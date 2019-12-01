@@ -61,13 +61,52 @@ func (this *noteService) Publish(
 	return
 }
 
+type NoteDetail struct {
+	Id          int64       `gorm:"PRIMARY_KEY;AUTO_INCREMENT" json:"id" form:"id"`
+	Title       string		`gorm:"size:128;not null;" json:"title" form:"title"`
+	Content     string		`gorm:"type:longtext;not null;" json:"content" form:"content"`
+	ContentType string		`gorm:"type:varchar(32);not null" json:"contentType" form:"contentType"`
+	Status      int			`gorm:"int;not null" json:"status" form:"status"`
+	Images   	string		`gorm:"type:text" json:"images" form:"images"`
+	CreateTime  int64		`json:"createTime" form:"createTime"`
+	UpdateTime  int64		`json:"updateTime" form:"updateTime"`
+	Nickname    string		`gorm:"size:16;" json:"nickname" form:"nickname"`
+	Avatar      string		`gorm:"type:text" json:"avatar" form:"avatar"`
+}
+
 // 文章列表
-func (this *noteService) GetArticles(cursor int64) (articles []model.Note, nextCursor int64) {
+func (this *noteService) GetArticles(cursor int64) (articles []model.Note, nextCursor int64, noteDetails []NoteDetail) {
 	cnd := simple.NewSqlCnd().Eq("status", model.ArticleStatusPublished).Desc("id").Limit(20)
 	if cursor > 0 {
 		cnd.Lt("id", cursor)
 	}
 	articles = repositories.NoteRepository.Find(simple.DB(), cnd)
+
+
+
+	//var noteDetails []NoteDetail
+
+	for i := 0; i < len(articles); i++ {
+
+		user := repositories.UserRepository.Get(simple.DB(), articles[i].UserId)
+
+		var noteDetail NoteDetail
+		noteDetail.Id = articles[i].Id
+
+		noteDetail.Id          = articles[i].Id
+		noteDetail.Title       = articles[i].Title
+		noteDetail.Content     = articles[i].Content
+		noteDetail.ContentType = articles[i].ContentType
+		noteDetail.Status      = articles[i].Status
+		noteDetail.Images      = articles[i].Images
+		noteDetail.CreateTime  = articles[i].CreateTime
+		noteDetail.UpdateTime  = articles[i].UpdateTime
+		noteDetail.Nickname    = user.Nickname
+		noteDetail.Avatar      = user.Avatar
+
+		noteDetails = append(noteDetails, noteDetail)
+	}
+
 	if len(articles) > 0 {
 		nextCursor = articles[len(articles)-1].Id
 	} else {
