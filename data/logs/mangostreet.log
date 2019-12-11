@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 time="2019-11-24T23:51:47+08:00" level=info msg="got signal [interrupt], exiting now"
 time="2019-11-24T23:51:47+08:00" level=error msg="http: Server closed"
 time="2019-11-24T23:51:47+08:00" level=info msg=Exited
@@ -36,3 +37,5 @@ time="2019-12-01T01:17:25+08:00" level=info msg="got signal [interrupt], exiting
 time="2019-12-01T01:17:25+08:00" level=error msg="http: Server closed"
 time="2019-12-01T01:17:25+08:00" level=info msg=Exited
 >>>>>>> 8f35fe581c72cf3cbb56994ab3ee37156138db29
+=======
+>>>>>>> f617b77d9c9351bd390d61d1656d518de71cf646
